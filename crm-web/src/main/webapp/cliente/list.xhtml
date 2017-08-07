@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	template="/WEB-INF/templates/default.xhtml">
+	<ui:define name="content">
+
+		<h1>CRM - Clientes</h1>
+
+		<div>
+			<h3>Lista de clientes cadastrados no sistema.</h3>
+			<p> <h:messages styleClass="messages" errorClass="invalid" 
+						infoClass="valid" warnClass="warning" globalOnly="true" /> </p>
+			<!--  img src="#{request.contextPath}/resources/gfx/wildfly_400x130.jpg" /-->
+		</div>
+	
+	     <ul >
+	     <li>
+		<h:link value="Novo cliente" outcome="save"/>
+			</li>
+			</ul>
+			
+		<h:form id="reg">
+		
+
+		
+			<h2>Pesquisa de Clientes</h2>
+			<h:panelGrid columns="3" columnClasses="titleCell">
+				<h:outputLabel for="nome" value="Nome:" />
+				<h:inputText id="nome" value="#{clienteController.cliente.nome}">
+					<f:validateBean disabled="true"></f:validateBean>
+				</h:inputText>
+				<h:message for="nome" errorClass="invalid" />
+			</h:panelGrid>
+
+			<p>
+					<h:commandButton id="pesquisar"
+						action="#{clienteController.pesquisar}" value="Pesquisar"/>
+					
+			</p>
+		
+		<h2>Clientes:</h2>
+		<h:panelGroup rendered="#{empty clienteController.clientes}">
+			<em>Nenhum cliente encontrado.</em>
+		</h:panelGroup>
+		<div id="scrolly">
+		<h:dataTable var="_cliente" value="#{clienteController.clientes}"
+			rendered="#{not empty clienteController.clientes}" styleClass="simpletablestyle">
+			<h:column>
+				<f:facet name="header">Codigo</f:facet>
+                #{_cliente.codigo}
+            </h:column>
+			<h:column>
+				<f:facet name="header">Nome</f:facet>
+                #{_cliente.nome}
+            </h:column>
+			<h:column>
+				<f:facet name="header">Logradouro</f:facet>
+                #{_cliente.logradouro}
+            </h:column>
+			<h:column>
+				<f:facet name="header">Número</f:facet>
+                #{_cliente.numeroLogradouro}
+            </h:column>
+			<h:column>
+			<f:facet name="header">Telefone</f:facet>
+                #{_cliente.telefone}
+            </h:column>
+			<h:column>
+				<f:facet name="header">Tipo</f:facet>
+                <h:outputText value="Física" rendered="#{_cliente.tipoPessoa eq 1}"/>
+                <h:outputText value="Jurídica" rendered="#{_cliente.tipoPessoa eq 2}"/>
+            </h:column>
+			<h:column>
+				<f:facet name="header">CPF/CNPJ</f:facet>
+                #{_cliente.cpfCnpj}
+            </h:column>
+			<h:column>
+			<f:facet name="header">Cidade</f:facet>
+                #{_cliente.cidade}
+            </h:column>
+			<h:column>
+				<f:facet name="header">Estado</f:facet>
+                #{_cliente.estado}
+            </h:column>
+			<h:column>
+				<f:facet name="header">E-mail</f:facet>
+                #{_cliente.email}
+            </h:column>
+
+			<h:column>
+				<f:facet name="header">Porte</f:facet>
+                 <h:outputText value="Micro" rendered="#{_cliente.porte eq 1}"/>
+                 <h:outputText value="Pequeno" rendered="#{_cliente.porte eq 2}"/>
+                 <h:outputText value="Médio" rendered="#{_cliente.porte eq 3}"/>
+                 <h:outputText value="Grande" rendered="#{_cliente.porte eq 4}"/>
+            </h:column>
+			<h:column>
+				<f:facet name="header">Limite Crédito</f:facet>
+				 	
+                <h:outputText  value="#{_cliente.limiteCredito}">
+                <f:convertNumber pattern="#,##0.00" minFractionDigits="2" locale="pt_BR" />
+                </h:outputText>
+                
+                
+            </h:column>
+			<h:column>
+				<f:facet name="header">Dt. Cadastro</f:facet>
+                <h:outputText value="#{_cliente.dataCadastro}">
+                	<f:convertDateTime type="date" pattern="dd-MM-yyyy"/>
+                </h:outputText> 
+            </h:column>
+            
+            			<h:column>
+				<f:facet name="header">Qtd. Contatos</f:facet>
+                #{_cliente.contatos.size()}
+            </h:column>
+            
+            <h:column>
+                  <h:link value="Editar" outcome="/cliente/save">
+                    <f:param name="codigo" value="#{_cliente.codigo}" />
+                </h:link>
+            </h:column>
+            <h:column>
+                  <h:link value="Contatos" outcome="/cliente/contato/list">
+                    <f:param name="codigoCliente" value="#{_cliente.codigo}" />
+                  </h:link>
+            </h:column>
+                        <h:column>
+            	<h:commandLink action="#{clienteController.excluir(_cliente)}" value="Excluir" onclick="if (! confirm('Deseja realmente excluir o registro?')) return false" >
+            	</h:commandLink>
+            </h:column>
+		</h:dataTable>
+		<br></br>
+		</div>
+		</h:form>
+	</ui:define>
+</ui:composition>

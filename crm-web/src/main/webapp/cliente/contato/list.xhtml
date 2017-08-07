@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	template="/WEB-INF/templates/default.xhtml">
+
+	<f:metadata>
+		<f:viewParam name="codigoCliente" value="#{contatoController.cliente}" converter="clienteConverter" />
+		<f:event type="preRenderView" listener="#{contatoController.loadContatos}" />
+	</f:metadata>
+
+	<ui:define name="content">
+
+		<div id="menu">
+			<ul>
+				<li><h:link value="Início" outcome="/cliente/list"/></li>
+			</ul>
+		</div>
+
+		<h1>CRM - Contatos</h1>
+
+		<div>
+			<h3>Lista de contatos.</h3>
+
+			<h3>
+				Cliente:
+				<h:link
+					value="#{contatoController.cliente.codigo} - #{contatoController.cliente.nome}"
+					outcome="/cliente/save">
+					<f:param name="codigo" value="#{contatoController.cliente.codigo}" />
+				</h:link>
+			</h3>
+
+			<p>
+				<h:messages styleClass="messages" errorClass="invalid"
+					infoClass="valid" warnClass="warning" globalOnly="true" />
+			</p>
+		</div>
+		<div>
+			<ul>
+
+				<li><h:link value="Novo contato" outcome="save"	includeViewParams="true" /></li>
+			</ul>
+		</div>
+		<h:form id="reg">
+			<h2>Contatos</h2>
+			<h:panelGroup rendered="#{empty contatoController.contatos}">
+				<em>Nenhum contato cadastrado para este cliente.</em>
+			</h:panelGroup>
+			<h:dataTable var="_contato" value="#{contatoController.contatos}"
+				rendered="#{not empty  contatoController.contatos}"
+				styleClass="simpletablestyle">
+				<h:column>
+					<f:facet name="header">Cliente</f:facet>
+                #{_contato.cliente.codigo}
+            </h:column>
+				<h:column>
+					<f:facet name="header">Codigo</f:facet>
+                #{_contato.codigo}
+            </h:column>
+				<h:column>
+					<f:facet name="header">Nome</f:facet>
+                #{_contato.nome}
+            </h:column>
+				<h:column>
+					<f:facet name="header">E-mail</f:facet>
+                #{_contato.email}
+            </h:column>
+				<h:column>
+					<f:facet name="header">Telefone</f:facet>
+                #{_contato.telefone}
+            </h:column>
+				<h:column>
+					<f:facet name="header">Cargo</f:facet>
+					<h:outputText value="Comprador" rendered="#{_contato.cargo eq 1}" />
+					<h:outputText value="Vendedor" rendered="#{_contato.cargo eq 2}" />
+					<h:outputText value="Auxiliar Administrativo" rendered="#{_contato.cargo eq 3}" />
+					<h:outputText value="Gerente" rendered="#{_contato.cargo eq 4}" />
+					<h:outputText value="Diretor" rendered="#{_contato.cargo eq 5}" />
+				</h:column>
+				<h:column>
+					<f:facet name="header">Departamento</f:facet>
+					<h:outputText value="Comercial" rendered="#{_contato.departamento eq 1}" />
+					<h:outputText value="Financeiro" rendered="#{_contato.departamento eq 2}" />
+					<h:outputText value="Serviços" rendered="#{_contato.departamento eq 3}" />
+					<h:outputText value="Indústria" rendered="#{_contato.departamento eq 4}" />
+					<h:outputText value="Almoxarifado" rendered="#{_contato.departamento eq 5}" />
+					<h:outputText value="Recursos Humanos" rendered="#{_contato.departamento eq 6}" />
+					<h:outputText value="Fiscal" rendered="#{_contato.departamento eq 7}" />
+					<h:outputText value="Contábil" rendered="#{_contato.departamento eq 8}" />
+				</h:column>
+				<h:column>
+					<h:link value="Editar" outcome="/cliente/contato/save">
+						<f:param name="codigoCliente" value="#{_contato.cliente.codigo}" />
+						<f:param name="codigoContato" value="#{_contato.codigo}" />
+					</h:link>
+				</h:column>
+				<h:column>
+					<h:commandLink action="#{contatoController.excluir(_contato)}"
+						value="Excluir"	onclick="if (! confirm('Deseja realmente excluir o registro?')) return false">
+					</h:commandLink>
+				</h:column>
+			</h:dataTable>
+		</h:form>
+	</ui:define>
+</ui:composition>

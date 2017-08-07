@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	template="/WEB-INF/templates/default.xhtml">
+	
+    <f:metadata>
+        <f:viewParam name="codigo" value="#{clienteController.cliente}" converter="clienteConverter"/>
+    </f:metadata>
+	
+	<ui:define name="content">
+		<h1><h:outputText value="Inserir novo cliente" rendered="#{empty clienteController.cliente.codigo}"></h:outputText>
+		<h:outputText value="Editar cliente" rendered="#{not empty clienteController.cliente.codigo}"></h:outputText>
+		</h1>
+
+		<div>
+
+			<p>
+				<h:messages styleClass="messages" errorClass="invalid"
+					infoClass="valid" warnClass="warning" globalOnly="true" />
+			</p>
+		</div>
+
+		<h:form id="reg">
+			<h2>Cliente:</h2>
+			<h:panelGrid columns="3" columnClasses="">
+				<h:outputLabel for="codigoCliente" value="Cliente" rendered="#{not empty clienteController.cliente.codigo}"/>
+				<h:inputText disabled="true" id="codigoCliente" value="#{clienteController.cliente.codigo}" rendered="#{not empty clienteController.cliente.codigo}"/>
+				<h:message for="codigoCliente" errorClass="invalid" rendered="#{not empty clienteController.cliente.codigo}" />
+				
+				<h:outputLabel for="nome" value="Nome" />
+				<h:inputText id="nome" value="#{clienteController.cliente.nome}" />
+				<h:message for="nome" errorClass="invalid" />
+
+				<h:outputLabel for="logradouro" value="Logradouro" />
+				<h:inputText id="logradouro" value="#{clienteController.cliente.logradouro}" />
+				<h:message for="logradouro" errorClass="invalid" />
+
+				<h:outputLabel for="numeroLogradouro" value="Número" />
+				<h:inputText id="numeroLogradouro"
+					value="#{clienteController.cliente.numeroLogradouro}" converterMessage="Deve ser um número inteiro" />
+				<h:message for="numeroLogradouro" errorClass="invalid" />
+
+				<h:outputLabel for="telefone" value="Telefone" />
+				<h:inputText id="telefone" value="#{clienteController.cliente.telefone}" />
+				<h:message for="telefone" errorClass="invalid" />
+
+				<h:outputLabel for="tipoPessoa" value="Tipo" />
+				<h:selectOneRadio id="tipoPessoa" value="#{clienteController.cliente.tipoPessoa}" class="selectOneRadioClass">
+					<f:selectItem itemValue="1" itemLabel="Pessoa física"/>
+					<f:selectItem itemValue="2" itemLabel="Pessoa jurídica" />
+				</h:selectOneRadio>
+					<h:message for="tipoPessoa" errorClass="invalid" /> 	
+
+				<h:outputLabel for="cpfCnpj" value="CPF/CNPJ" />
+				<h:inputText id="cpfCnpj" value="#{clienteController.cliente.cpfCnpj}" />
+				<h:message for="cpfCnpj" errorClass="invalid" />
+
+				<h:outputLabel for="cidade" value="Cidade" />
+				<h:inputText id="cidade" value="#{clienteController.cliente.cidade}" />
+				<h:message for="cidade" errorClass="invalid" />
+
+				<h:outputLabel for="estado" value="Estado" />
+				<h:inputText id="estado" value="#{clienteController.cliente.estado}" />
+				<h:message for="estado" errorClass="invalid" />
+
+				<h:outputLabel for="email" value="Email" />
+				<h:inputText id="email" value="#{clienteController.cliente.email}" />
+				<h:message for="email" errorClass="invalid" />
+				
+				<h:outputLabel for="porte" value="Porte" />
+				<h:selectOneMenu id="porte" value="#{clienteController.cliente.porte}">
+					<f:selectItem itemValue="1" itemLabel="Micro"/>
+					<f:selectItem itemValue="2" itemLabel="Pequeno"/>
+					<f:selectItem itemValue="3" itemLabel="Médio"/>
+					<f:selectItem itemValue="4" itemLabel="Grande"/>
+				</h:selectOneMenu>
+				<h:message for="porte" errorClass="invalid" />
+
+
+				<h:outputLabel for="limiteCredito" value="Limite de crédito"/>
+				<h:inputText id="limiteCredito" value="#{clienteController.cliente.limiteCredito}" converterMessage="Valor inválido. Ex: 100.277,80">
+					<f:convertNumber pattern="#,##0.00"/>
+				</h:inputText>
+				<h:message for="limiteCredito" errorClass="invalid" />
+			</h:panelGrid>
+
+			<p>
+				<h:panelGrid columns="3">
+					<h:commandButton id="register"
+						action="#{clienteController.salvar}" value="Salvar" />
+					<h:button id="cancelar" outcome="list" value="Cancelar"/>
+				    <h:button id="contatos" outcome="contato/list" value="Contatos" rendered="#{not empty clienteController.cliente.codigo}">
+				   			 <f:param name="codigoCliente" value="#{clienteController.cliente.codigo}" />
+                    </h:button>
+				</h:panelGrid>
+			</p>
+		</h:form>
+		
+	</ui:define>
+</ui:composition>

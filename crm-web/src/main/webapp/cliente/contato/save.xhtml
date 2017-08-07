@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	template="/WEB-INF/templates/default.xhtml">
+
+	<f:metadata>
+		<f:viewParam name="codigoCliente" value="#{contatoController.cliente}" converter="clienteConverter" />
+		<f:viewParam name="codigoContato" value="#{contatoController.codigoContato}" />
+		<f:event type="preRenderView" listener="#{contatoController.loadContato}" />
+	</f:metadata>
+
+	<ui:define name="content">
+		<h1>
+			<h:outputText value="Inserir novo contato" rendered="#{empty contatoController.contato.codigo}"></h:outputText>
+			<h:outputText value="Editar contato" rendered="#{not empty contatoController.contato.codigo}"></h:outputText>
+		</h1>
+
+		<div>
+			<p>
+				<h:messages styleClass="messages" errorClass="invalid"
+					infoClass="valid" warnClass="warning" globalOnly="true" />
+			</p>
+		</div>
+
+		<h:form id="reg">
+			<h2>CONTATO:</h2> 
+			<h:panelGrid columns="3">
+				<h:outputLabel for="cliente" value="Cliente" />
+				<h:inputText disabled="true" id="cliente" value="#{contatoController.contato.cliente.codigo} - #{contatoController.contato.cliente.nome}" />
+				<h:message for="cliente" errorClass="invalid" />
+				
+				<h:outputLabel for="codigoContato" value="Cliente" rendered="#{not empty contatoController.contato.codigo}"/>
+				<h:inputText disabled="true" id="codigoContato" value="#{contatoController.contato.codigo}" rendered="#{not empty contatoController.contato.codigo}"/>
+				<h:message for="codigoContato" errorClass="invalid" rendered="#{not empty contatoController.contato.codigo}" />
+
+				<h:outputLabel for="nome" value="Nome" />
+				<h:inputText id="nome" value="#{contatoController.contato.nome}" />
+				<h:message for="nome" errorClass="invalid" />
+
+				<h:outputLabel for="email" value="Email" />
+				<h:inputText id="email" value="#{contatoController.contato.email}" />
+				<h:message for="email" errorClass="invalid" />
+
+				<h:outputLabel for="telefone" value="Telefone" />
+				<h:inputText id="telefone"
+					value="#{contatoController.contato.telefone}" />
+				<h:message for="telefone" errorClass="invalid" />
+
+				<h:outputLabel for="cargo" value="Cargo" />
+				<h:selectOneMenu id="cargo" style="width:200px"
+					value="#{contatoController.contato.cargo}">
+					<f:selectItem itemValue="1" itemLabel="Comprador" />
+					<f:selectItem itemValue="2" itemLabel="Vendedor" />
+					<f:selectItem itemValue="3" itemLabel="Auxiliar Administrativo" />
+					<f:selectItem itemValue="4" itemLabel="Gerente" />
+					<f:selectItem itemValue="5" itemLabel="Diretor" />
+				</h:selectOneMenu>
+				<h:message for="cargo" errorClass="invalid" />
+
+				<h:outputLabel for="departamento" value="Departamento" />
+				<h:selectOneMenu id="departamento" style="width:200px"
+					value="#{contatoController.contato.departamento}">
+					<f:selectItem itemValue="1" itemLabel="Comercial" />
+					<f:selectItem itemValue="2" itemLabel="Finaceiro" />
+					<f:selectItem itemValue="3" itemLabel="Serviços" />
+					<f:selectItem itemValue="4" itemLabel="Indústria" />
+					<f:selectItem itemValue="5" itemLabel="Almoxarifado" />
+					<f:selectItem itemValue="6" itemLabel="Recursos Humanos" />
+					<f:selectItem itemValue="7" itemLabel="Fiscal" />
+					<f:selectItem itemValue="8" itemLabel="Contábil" />
+				</h:selectOneMenu>
+				<h:message for="departamento" errorClass="invalid" />
+
+			</h:panelGrid>
+
+			<p>
+				<h:panelGrid columns="2">
+					<h:commandButton id="register" action="#{contatoController.salvar}"
+						value="Salvar" />
+					<h:button id="cancelar" outcome="list" value="Cancelar"
+						includeViewParams="true" styleClass="register" />
+				</h:panelGrid>
+			</p>
+		</h:form>
+
+	</ui:define>
+</ui:composition>
