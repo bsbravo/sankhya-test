@@ -1,8 +1,8 @@
-CRM: Teste Prático - SANKHYA
+CRM: Simple JEE Application
 ============================
-Autor: BRUNO SOARES BRAVO (bruno.soares.bravo@gmail.com)
+Author: BRUNO SOARES BRAVO (bruno.soares.bravo@gmail.com)
 
-Tecnologias utilizadas
+Built with:
 -----------
 - JAVA EE 7
 -- JSF 2.2
@@ -10,16 +10,15 @@ Tecnologias utilizadas
 -- EJB 3.2
 -- JPA 2.1
 
-Requisitos do Sistema
+Requirements:
 -------------------
 - Java 7
 - Maven 3.1
-- JBoss (Wildfly) 8.2
+- JBoss (Wildfly) > 8.2
 
-Banco de dados
+Databse
 -------------------
-H2 no modo embarcado, mantém os dados se reiniciar o servidor.
-Este banco de dados já vem com o JBoss.
+H2 - embedded mode.
 
 
  
