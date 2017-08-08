@@ -1,12 +1,12 @@
-package br.com.sankhya.crm.model;
+package br.com.bravo.crm.model;
 
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.Locale;
 
-import br.com.sankhya.crm.exception.BusinessException;
-import br.com.sankhya.crm.util.Constantes;
+import br.com.bravo.crm.exception.BusinessException;
+import br.com.bravo.crm.util.Constants;
 
 /**
  * Define os tipos possíveis para porte de um Cliente.
@@ -15,7 +15,7 @@ import br.com.sankhya.crm.util.Constantes;
  * @author Bruno Soares Bravo
  *
  */
-public enum PorteCliente {
+public enum CustomerSize {
 	
 	MICRO(1l) {
 		@Override
@@ -24,25 +24,25 @@ public enum PorteCliente {
 				throw new BusinessException("Micro empresas não podem ter limite de crédito.");
 			}
 		}
-	}, PEQUENO(2l) {
+	}, SMALL(2l) {
 		@Override
 		public void validarLimiteCredito(BigDecimal limiteCredito) throws BusinessException {
-			if(limiteCredito.compareTo(Constantes.LIMITE_PEQUENO_PORTE) > 0)
-				throw new BusinessException("Empresas de porte pequeno não podem ter limite maior do que " + df.format(Constantes.LIMITE_PEQUENO_PORTE) );
+			if(limiteCredito.compareTo(Constants.LIMIT_SMALL_CUSTOMER) > 0)
+				throw new BusinessException("Empresas de porte pequeno não podem ter limite maior do que " + df.format(Constants.LIMIT_SMALL_CUSTOMER) );
 			
 		}
-	}, MEDIO(3l) {
+	}, MEDIUM(3l) {
 		@Override
 		public void validarLimiteCredito(BigDecimal limiteCredito) throws BusinessException {
-			if(limiteCredito.compareTo(Constantes.LIMITE_MEDIO_PORTE) > 0)
-				throw new BusinessException("Empresas de porte médio não podem ter limite maior do que " + df.format(Constantes.LIMITE_MEDIO_PORTE ));
+			if(limiteCredito.compareTo(Constants.LIMIT_MEDIUM_CUSTOMER) > 0)
+				throw new BusinessException("Empresas de porte médio não podem ter limite maior do que " + df.format(Constants.LIMIT_MEDIUM_CUSTOMER ));
 			
 		}
-	}, GRANDE(4l) {
+	}, LARGE(4l) {
 		@Override
 		public void validarLimiteCredito(BigDecimal limiteCredito) throws BusinessException {
-			if(limiteCredito.compareTo(Constantes.LIMITE_GRANDE_PORTE) > 0)
-				throw new BusinessException("Empresas de porte grande não podem ter limite maior do que " + df.format(Constantes.LIMITE_GRANDE_PORTE ));
+			if(limiteCredito.compareTo(Constants.LIMIT_LARGE_CUSTOMER) > 0)
+				throw new BusinessException("Empresas de porte grande não podem ter limite maior do que " + df.format(Constants.LIMIT_LARGE_CUSTOMER ));
 			
 		}
 	};
@@ -52,13 +52,13 @@ public enum PorteCliente {
 	
 	private Long porteCliente;
 	
-	private PorteCliente(Long porteCliente) {
+	private CustomerSize(Long porteCliente) {
 		this.porteCliente = porteCliente;
 	}
 	
-	public static PorteCliente getInstance(Long porteCliente) throws BusinessException
+	public static CustomerSize getInstance(Long porteCliente) throws BusinessException
 	{
-	    for (PorteCliente type : PorteCliente.values()) {
+	    for (CustomerSize type : CustomerSize.values()) {
 	        if(type.porteCliente == porteCliente)
 	            return type;
 	    }

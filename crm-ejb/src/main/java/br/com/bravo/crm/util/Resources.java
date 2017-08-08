@@ -1,4 +1,4 @@
-package br.com.sankhya.crm.util;
+package br.com.bravo.crm.util;
 
 import java.util.logging.Logger;
 

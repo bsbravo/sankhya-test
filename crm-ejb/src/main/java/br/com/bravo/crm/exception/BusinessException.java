@@ -1,4 +1,4 @@
-package br.com.sankhya.crm.exception;
+package br.com.bravo.crm.exception;
 
 /**
  * Representa as exceções lançadas por erro de validação na lógica de negócio.

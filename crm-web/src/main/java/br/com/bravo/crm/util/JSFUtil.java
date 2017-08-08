@@ -1,4 +1,4 @@
-package br.com.sankhya.crm.util;
+package br.com.bravo.crm.util;
 
 import javax.enterprise.context.RequestScoped;
 import javax.enterprise.inject.Produces;
@@ -22,37 +22,37 @@ public class JSFUtil {
     
     }
     
-    public static final void exibirMensagemErro(Exception e) {
+    public static final void showErrorMessage(Exception e) {
         
-    	String errorMessage = JSFUtil.getMensagemErro(e);
+    	String errorMessage = JSFUtil.getErrorMessage(e);
         FacesMessage m = new FacesMessage(FacesMessage.SEVERITY_ERROR, errorMessage, "Falha ao realizar operação.");
         FacesContext.getCurrentInstance().addMessage(null, m);
         FacesContext.getCurrentInstance().getExternalContext().getFlash().setKeepMessages(true);
     	
     }
     
-    public static final void exibirMensagemErro(String msgErro) {
+    public static final void showErrorMessage(String msgErro) {
     
     	FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, msgErro, "Falhar ao realizar operação"));
     	FacesContext.getCurrentInstance().getExternalContext().getFlash().setKeepMessages(true);
     	
     }
     
-    public static final void exibirMensagem(String msg) {
+    public static final void showMessage(String msg) {
         
     	FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, msg, null));
         FacesContext.getCurrentInstance().getExternalContext().getFlash().setKeepMessages(true);
     
     }
     
-    public static final void redirecionarPagina(String pagina) {
+    public static final void redirectPage(String pagina) {
 
     	FacesContext ctx = FacesContext.getCurrentInstance();
     	ctx.getApplication().getNavigationHandler().handleNavigation(ctx, null, pagina + "?faces-redirect=true");
     	
     }
     
-    private static final String getMensagemErro(Exception e) {
+    private static final String getErrorMessage(Exception e) {
 
     	String msgErro = "Falha ao realizar operação.";
         if (e == null) {

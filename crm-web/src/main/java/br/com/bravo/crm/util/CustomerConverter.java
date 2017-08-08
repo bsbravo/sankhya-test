@@ -1,4 +1,4 @@
-package br.com.sankhya.crm.util;
+package br.com.bravo.crm.util;
 
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -7,8 +7,8 @@ import javax.faces.convert.ConverterException;
 import javax.faces.convert.FacesConverter;
 import javax.inject.Inject;
 
-import br.com.sankhya.crm.model.Cliente;
-import br.com.sankhya.crm.service.ClienteService;
+import br.com.bravo.crm.model.Customer;
+import br.com.bravo.crm.service.CustomerService;
 
 /**
  * Classe utilizada pelas views do JSF para converter o código do cliente na
@@ -17,11 +17,11 @@ import br.com.sankhya.crm.service.ClienteService;
  * @author Bruno Soares Bravo
  *
  */
-@FacesConverter(value = "clienteConverter")
-public class ClienteConverter implements Converter {
+@FacesConverter(value = "customerConverter")
+public class CustomerConverter implements Converter {
 
 	@Inject
-	private ClienteService clienteService;
+	private CustomerService customerService;
 
 	@Override
 	public Object getAsObject(FacesContext arg0, UIComponent arg1, String value) {
@@ -31,17 +31,17 @@ public class ClienteConverter implements Converter {
 		}
 
 		if (value.isEmpty() || !value.matches("[0-9]+")) {
-			JSFUtil.redirecionarPagina("/cliente/list");
+			JSFUtil.redirectPage("/cliente/list");
 			return null;
 
 		}
 
 		Long codigo = Long.valueOf(value);
 
-		Cliente cliente = clienteService.pesquisar(codigo);
+		Customer cliente = customerService.pesquisar(codigo);
 
 		if (cliente == null) {
-			JSFUtil.redirecionarPagina("/cliente/list");
+			JSFUtil.redirectPage("/cliente/list");
 		}
 
 		return cliente;
@@ -54,11 +54,11 @@ public class ClienteConverter implements Converter {
 			return "";
 		}
 
-		if (!(value instanceof Cliente)) {
+		if (!(value instanceof Customer)) {
 			throw new ConverterException("O valor não é válido para uma instância de Cliente: " + value);
 		}
 
-		Long codigo = ((Cliente) value).getCodigo();
+		Long codigo = ((Customer) value).getCode();
 
 		return (codigo != null) ? String.valueOf(codigo) : null;
 	}
